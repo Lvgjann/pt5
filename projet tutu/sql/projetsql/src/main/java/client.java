@@ -4,7 +4,7 @@ import java.sql.Statement;
 
 public class client {
 
-    private static String requeteSimple (String cartefid) {
+    private static String requeteSimple(String cartefid) {
         param p1 = new param();
         String result = "";
         try {
@@ -13,7 +13,7 @@ public class client {
             ResultSet rs = smt.executeQuery(rqt);
 
             while (rs.next()) {
-                result = result + " " +"idcli : " + rs.getString("idcli") +
+                result = result + " " + "idcli : " + rs.getString("idcli") +
                         ", cartefid : " + rs.getString("cartefid") +
                         ", sexe : " + rs.getInt("sexe") +
                         ", codepostal : " + rs.getString("codepostal") +
@@ -28,7 +28,8 @@ public class client {
         }
         return result;
     }
-    private static String requeteJointure (String cartefid) {
+
+    private static String requeteJointure(String cartefid) {
         param p1 = new param();
         int i = 1;
         String result = "";
@@ -38,9 +39,9 @@ public class client {
             ResultSet rs = smt.executeQuery(rqt);
 
             while (rs.next()) {
-                result = result + "L"+ i +"  idcli : " + rs.getString("idcli") +
+                result = result + "L" + i + "  idcli : " + rs.getString("idcli") +
                         ", cartefid : " + rs.getString("cartefid") +
-                        ", parkod10 : "+rs.getString("PARKOD10");
+                        ", parkod10 : " + rs.getString("PARKOD10");
                 i += 1;
             }
 
@@ -49,9 +50,10 @@ public class client {
         }
         return result;
     }
-        public static void main (String[] args){
+
+    public static void main(String[] args) {
         String r1 = requeteSimple("9990202685741");
-        System.out.println("Resultat r1 : "+r1);
+        System.out.println("Resultat r1 : " + r1);
         String r2 = requeteJointure("9990202685741");
         System.out.println("Resultat r2 : " + r2);
 
