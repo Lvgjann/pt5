@@ -27,6 +27,37 @@ class productDAO {
         $IdComp = substr($IdComp,0,strlen($IdComp)-1);
 		return $IdComp;
     }
+    public static function selectMostConsumeProduct($cartefid){
+        $reqResult = '';
+        $sql =  "select parkod10 ".
+        "from (select max(nbConso),parkod10 " .
+            "from (select count(parkod10) as nbConso,parkod10 ". 
+                " from venteComportement v ". 
+                " where  v.cartefidelite = '" . $cartefid . "' ".
+                " group by v.cartefidelite, v.parkod10) tra ".
+                ") tra2 ";
+        $result = [];
+         $listStrCarte = '';
+        $request = DBConnex::getInstance()->prepare($sql);    
+        $request->execute();
+        if($request->rowCount()!=0){
+            $reqResult= $request->fetchAll(PDO::FETCH_ASSOC);
+            var_dump($reqResult);
+            if(!empty($reqResult)){
+                foreach($reqResult as $product){
+                    $prod = new Product();
+                    $prod->hydrate($product);
+                    $result[]=$prod;
+                    $return = $prod->getParkod10();
+                }
+            }
+        }else{
+            $return = null;
+        }
+
+         var_dump($return);
+		return $return;
+    }
 
     public static function prepRqClassique($listCarteFid,$parkod10){
         return " and  v.cartefidelite in ($listCarteFid) and v.parkod10 !=  '$parkod10' ";
@@ -40,7 +71,6 @@ class productDAO {
         }else if ($periode == 1){
             return  " and v.date  between '26/11/%%%%' and '31/12/%%%%'";
         }
-       
     }
     public static function prepRqPlageAge($pAge){
         if ($pAge == 1){

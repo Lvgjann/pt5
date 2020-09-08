@@ -26,6 +26,7 @@ class clientDAO {
          var_dump($listStrCarte);
 		return $listStrCarte;
     }
+
     public static function cleanClientNoel(){ // vide la table de travail 
 
         $sql = "Delete from clientNoel" ;    
